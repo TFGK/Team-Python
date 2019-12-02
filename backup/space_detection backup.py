@@ -1,23 +1,21 @@
 import cv2
 import imutils
 import numpy as np
-import joblib
 import yaml
 
 index = 1 #저장 index 카운트
 list_data = [] #pts를 묶는 배열
-total = []
-pts = []  # 공간 좌표 저장 배열
-pts2 = []
-
+# 공간 좌표 저장 배열
+pts = []  #튜플 저장공간
+pts2 = [] #배열
 
 #mouse function
 def draw_roi(event, x, y, flags, param):
     img2 = img.copy()
 
     if event == cv2.EVENT_LBUTTONDOWN:  # 좌클릭->배열에 x,y 저장
-        pts.append((x, y))
-        pts2.append([x,y])
+        pts.append((x, y)) #튜플로 저장돼서 저장이 안되더라
+        pts2.append([x,y]) #그래서 새롭게 변수하나 더만들어서
 
     if event == cv2.EVENT_RBUTTONDOWN:  # 우클릭->뒤로가기
         pts.pop()
@@ -53,9 +51,8 @@ def draw_roi(event, x, y, flags, param):
 
     cv2.imshow('image', img2)
 
-
 # 이미지창 생성 및 함수실행
-img = cv2.imread("./image.jpg")
+img = cv2.imread("./data/image.jpg")
 img = imutils.resize(img, width=500)
 
 cv2.namedWindow('image')
@@ -76,15 +73,15 @@ while True:
         list_data.append(saved_data) # 전체 배열에 추가
         print("[INFO] ROI저장 완료.")
     if key == ord("c"):
-        pts = []  # 배열 초기화
+        # 배열 초기화
+        pts = []  
         pts2 = []
 
-print(list_data)
 #배열확인
-with open(r"../test1/test.yml", 'w') as file:
+with open(r"./data/parking_sapce_data.yml", 'w') as file:
     test = yaml.dump(list_data, file, default_flow_style=False)
 
-
+print(list_data)
 cv2.destroyAllWindows()
 
 

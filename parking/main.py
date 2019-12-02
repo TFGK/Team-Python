@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
 import yaml
 import numpy as np
 import cv2
 
-# fn = r"../datasets/cut.mpg"
-fn = r"../datasets/parkinglot_1_480p.mp4"
-# fn_yaml = r"../datasets/CUHKSquare.yml"
-fn_yaml = r"../datasets/parking2.yml"
-fn_out = r"../datasets/output.avi"
+fn = r"../parking/data/test.mp4"
+fn_yaml = r"../parking/data/parking_sapce_data.yml"
+fn_out = r"../parking/data/output.avi"
 config = {'save_video': False,
           'text_overlay': True,
           'parking_overlay': True,
@@ -17,9 +14,9 @@ config = {'save_video': False,
           'park_sec_to_wait': 3,
           'start_frame': 0} #35000
 
-# Set capture device or file
+#동영상 프레임 캡쳐
 cap = cv2.VideoCapture(fn)
-# print cap.get(5) 
+#print cap.get(5)
 video_info = {'fps':    cap.get(cv2.CAP_PROP_FPS),
               'width':  int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
               'height': int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)),
@@ -27,13 +24,14 @@ video_info = {'fps':    cap.get(cv2.CAP_PROP_FPS),
               'num_of_frames': int(cap.get(cv2.CAP_PROP_FRAME_COUNT))}
 cap.set(cv2.CAP_PROP_POS_FRAMES, config['start_frame']) # jump to frame
 
-# Define the codec and create VideoWriter object
+# 코덱 정의 및 VideoWriter 객체 생성
 if config['save_video']:
     fourcc = cv2.VideoWriter_fourcc('D','I','V','X')# options: ('P','I','M','1'), ('D','I','V','X'), ('M','J','P','G'), ('X','V','I','D')
     out = cv2.VideoWriter(fn_out, -1, 25.0, #video_info['fps'], 
                           (video_info['width'], video_info['height']))
 
-# Read YAML data (parking space polygons)
+
+#YAML 데이터 읽기 (주차 공간)
 with open(fn_yaml, 'r') as stream:
     parking_data = yaml.load(stream)
 parking_contours = []
@@ -56,6 +54,7 @@ parking_status = [False]*len(parking_data)
 parking_buffer = [None]*len(parking_data)
 
 
+#주차공간 on off 부분인데 이해 아직 못했음
 while(cap.isOpened()):   
     spot = 0
     occupied = 0 
@@ -137,7 +136,7 @@ while(cap.isOpened()):
             out.write(frame_out)    
     
     # Display video
-    cv2.imshow('Detecção de Vagas de Estacionamento', frame_out)
+    cv2.imshow('DetecÃ§Ã£o de Vagas de Estacionamento', frame_out)
     cv2.waitKey(40)
     # cv2.imshow('background mask', bw)
     k = cv2.waitKey(1)

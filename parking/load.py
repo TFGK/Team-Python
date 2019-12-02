@@ -1,7 +1,6 @@
 import yaml
 
-f = open(r"../datasets/parking2.yml", 'r')
-
+f = open(r"./data/parking_sapce_data.yml", 'r')
 docs = yaml.load(f)
 print(docs)
     
