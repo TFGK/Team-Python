@@ -1,5 +1,6 @@
 import cv2
 
+fn = r"../parking/data/test.mp4"
 cap = cv2.VideoCapture(0)
 count = 0 # imwrite의 frame count 
 frame_path = "./parking/data/frame/"
